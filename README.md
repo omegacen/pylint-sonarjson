@@ -5,7 +5,9 @@ A PyLint plugin that can output to [SonarQube-importable JSON](https://docs.sona
 ## Usage
 
 ```
-$ pylint --load-plugins=pylint_sonarjson --output-format=sonarjson \
+$ pylint \
+    --load-plugins=pylint_sonarjson \
+    --output-format=sonarjson \
     --sonar-rules=<msg_id:severity[:effort[:type]]>,... \
     --sonar-default-severity=<severity> \
     --sonar-default-effort=<effort> \
@@ -13,10 +15,25 @@ $ pylint --load-plugins=pylint_sonarjson --output-format=sonarjson \
     [...]
 ```
 
+The plugin provides a new option `sonar-rules` that can configure the severity, 
+effort,  and type of the issue as it would appear in SonarQube. The option takes
+a comma-separated list whose items are of the form `<msg_id>:<severity>:<effort>:<type>`.
+The message ID and severity are required; the effort and type are optional and
+may be omitted.
+
+In addition, the default severity, effort, and type for messages that are not listed
+in `sonar-rules` can respectively be set with `sonar-default-severity`, 
+`sonar-default-effort`, `sonar-default-type`. They default to `MINOR`, `5`, and
+`CODE_SMELL` respectively.
+
 For example:
 
 ```
-$ pylint --load-plugins=pylint_sonarjson --output-format=sonarjson --sonar-rules=C0114:INFO:10,C0328:MINOR:1
+$ pylint \
+    --load-plugins=pylint_sonarjson \
+    --output-format=sonarjson \
+    --sonar-rules=C0114:INFO:10,C0328:MINOR:1 \
+    my_file.py
 ```
 
 Output:
