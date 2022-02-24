@@ -1,6 +1,7 @@
 # pylint-sonarjson
 
-A PyLint plugin that can output to [SonarQube-importable JSON](https://docs.sonarqube.org/latest/analysis/generic-issue/).
+A PyLint plugin that can output to [SonarQube-importable JSON](https://docs.sonarqube.org/latest/analysis/generic-issue/)
+with configurable issue severity, effort, and type.
 
 ## Usage
 
@@ -8,10 +9,11 @@ A PyLint plugin that can output to [SonarQube-importable JSON](https://docs.sona
 $ pylint \
     --load-plugins=pylint_sonarjson \
     --output-format=sonarjson \
-    --sonar-rules=<msg_id:severity[:effort[:type]]>,... \
+    --sonar-rules=<msg_id>:<severity>[:<effort>[:<type>]],... \
     --sonar-default-severity=<severity> \
     --sonar-default-effort=<effort> \
     --sonar-default-type=<type> \
+    --only-enable-sonar-rules=<y or n> \
     [...]
 ```
 
@@ -25,6 +27,11 @@ In addition, the default severity, effort, and type for messages that are not li
 in `sonar-rules` can respectively be set with `sonar-default-severity`, 
 `sonar-default-effort`, `sonar-default-type`. They default to `MINOR`, `5`, and
 `CODE_SMELL` respectively.
+
+Lastly, setting the option `only-enable-sonar-rules` to `y` disables all messages
+except for those specified in `sonar-rules`. It is equivalent to 
+`--disable=all --enable=<msg_id>,...` where `<msg_id>,...` are the message IDs
+specified in `sonar-rules`. The default value of `only-enable-sonar-rules` is `n`.`
 
 For example:
 

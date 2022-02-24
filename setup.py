@@ -19,6 +19,9 @@ setuptools.setup(
         "Operating System :: OS Independent",
     ],
     python_requires='>=3.6',
-    install_requires=["pylint>=2.0"],
+    install_requires=[
+        "pylint-plugin-utils>=0.7",
+        "pylint>=2.0"
+    ],
     package_dir={'': 'src'}
 )
