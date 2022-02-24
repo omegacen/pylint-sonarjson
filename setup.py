@@ -11,7 +11,8 @@ setuptools.setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/omegacen/pylint-sonarjson",
-    packages=setuptools.find_packages(),
+    packages=setuptools.find_packages(where='src'),
+    package_dir={'': 'src'},
     license_file='LICENSE',
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -23,5 +24,4 @@ setuptools.setup(
         "pylint-plugin-utils>=0.7",
         "pylint>=2.0"
     ],
-    package_dir={'': 'src'}
 )
