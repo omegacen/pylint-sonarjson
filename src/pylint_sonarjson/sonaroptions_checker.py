@@ -1,4 +1,4 @@
-from typing import Dict
+from typing import Dict, Set
 
 from pylint.checkers import BaseChecker
 from pylint.exceptions import InvalidArgsError
@@ -84,6 +84,7 @@ class SonarOptionsChecker(BaseChecker):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self._msg_ids: Set[str] = set()
         self._severities: Dict[str, str] = {}
         self._efforts:  Dict[str, int] = {}
         self._types:  Dict[str, str] = {}
@@ -106,6 +107,7 @@ class SonarOptionsChecker(BaseChecker):
     def _parse_sonar_rule(self, sonar_rule: str):
         split = sonar_rule.split(":")
         msg_id = self._validate_msg_id(split[0])
+        self._msg_ids.add(msg_id)
         if len(split) > 1:
             self._severities[msg_id] = self._validate_severity(split[1])
         if len(split) > 2:
@@ -117,8 +119,7 @@ class SonarOptionsChecker(BaseChecker):
         emittable, _ = self.linter.msgs_store.find_emittable_messages()
         for msg in emittable:
             self.linter.disable(msg.msgid)
-        # Severities are mandatory, so we can just use its keys to get all msg_ids.
-        for msg_id in self._severities.keys():
+        for msg_id in self._msg_ids:
             self.linter.enable(msg_id)
 
     def _validate_msg_id(self, msg_id: str):
