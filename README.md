@@ -1,7 +1,13 @@
 # pylint-sonarjson
 
 A PyLint plugin that can output to [SonarQube-importable JSON](https://docs.sonarqube.org/latest/analysis/generic-issue/)
-with configurable issue severity, effort, and type.
+with configurable issue severity, effort, and type. 
+
+This is useful because when importing PyLint's 
+[parsable output](https://pylint.pycqa.org/en/latest/user_guide/output.html#output-options)
+via [SonarQube mechanism for third-party issues](https://docs.sonarqube.org/latest/analysis/external-issues/)
+all the severities are set to `MAJOR`. With `pylint-sonarjson` you can configure the
+issue severity per PyLint message ID, and import that as generic JSON in SonarQube.
 
 ## Usage
 
@@ -18,10 +24,9 @@ $ pylint \
 ```
 
 The plugin provides a new option `sonar-rules` that can configure the severity, 
-effort,  and type of the issue as it would appear in SonarQube. The option takes
+effort, and type of the issue as it would appear in SonarQube. The option takes
 a comma-separated list whose items are of the form `<msg_id>:<severity>:<effort>:<type>`.
-The message ID and severity are required; the effort and type are optional and
-may be omitted.
+The effort and type are optional and  may be omitted.
 
 In addition, the default severity, effort, and type for messages that are not listed
 in `sonar-rules` can respectively be set with `sonar-default-severity`, 
@@ -67,6 +72,11 @@ Output:
 }
 ```
 
+This output, when saved to a file, can be imported into SonarQube as follows:
+
+```
+$ sonar-scanner -Dsonar.externalIssuesReportPaths=<path_to_pylint_sonarjson_log>
+```
 
 ## Installation
 
