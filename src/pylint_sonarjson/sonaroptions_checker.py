@@ -116,6 +116,8 @@ class SonarOptionsChecker(BaseChecker):
             self._types[msg_id] = self._validate_type(split[3])
 
     def _only_enable_sonar_rules(self):
+        if not hasattr(self.linter.msgs_store, 'find_emittable_messages'):
+            raise InvalidArgsError(f"Pylint version is too low to use only-enable-sonar-rules.")
         emittable, _ = self.linter.msgs_store.find_emittable_messages()
         for msg in emittable:
             self.linter.disable(msg.msgid)
@@ -123,6 +125,8 @@ class SonarOptionsChecker(BaseChecker):
             self.linter.enable(msg_id)
 
     def _validate_msg_id(self, msg_id: str):
+        if not hasattr(self.linter.msgs_store, 'find_emittable_messages'):
+            return
         emittable, _ = self.linter.msgs_store.find_emittable_messages()
         for msg in emittable:
             if msg_id == msg.msgid:

@@ -1,5 +1,5 @@
 import json
-from typing import Optional
+from typing import Optional, List
 
 from pylint.interfaces import IReporter
 from pylint.message import Message
@@ -20,6 +20,10 @@ class SonarJSONReporter(BaseReporter):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._checker: Optional[SonarOptionsChecker] = None
+        self._messages: List[Message] = []
+
+    def handle_message(self, msg: Message) -> None:
+        self._messages.append(msg)
 
     @property
     def sonar_checker(self) -> SonarOptionsChecker:
@@ -28,7 +32,7 @@ class SonarJSONReporter(BaseReporter):
         return self._checker
 
     def display_messages(self, layout: Optional[Section]):
-        json_dumpable = [self._msg_to_sonar_dict(msg) for msg in self.messages]
+        json_dumpable = [self._msg_to_sonar_dict(msg) for msg in self._messages]
         print(json.dumps({"issues": json_dumpable}, indent=4), file=self.out)
 
     def _msg_to_sonar_dict(self, msg: Message):

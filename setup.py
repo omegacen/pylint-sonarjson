@@ -22,6 +22,6 @@ setuptools.setup(
     python_requires='>=3.6',
     install_requires=[
         "pylint-plugin-utils>=0.7",
-        "pylint>=2.0"
+        "pylint>=2.4,<3"
     ],
 )

@@ -5,6 +5,10 @@ The output format is JSON as described in
 https://docs.sonarqube.org/latest/analysis/generic-issue/
 """
 
+try:
+    from pylint.lint.pylinter import PyLinter
+except ImportError:
+    from pylint.lint import PyLinter
 from pylint.lint.pylinter import PyLinter
 from pylint_plugin_utils import get_checker
 
