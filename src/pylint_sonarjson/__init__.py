@@ -9,7 +9,6 @@ try:
     from pylint.lint.pylinter import PyLinter
 except ImportError:
     from pylint.lint import PyLinter
-from pylint.lint.pylinter import PyLinter
 from pylint_plugin_utils import get_checker
 
 from .sonarjson_reporter import SonarJSONReporter
