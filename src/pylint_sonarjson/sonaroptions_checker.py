@@ -126,7 +126,7 @@ class SonarOptionsChecker(BaseChecker):
 
     def _validate_msg_id(self, msg_id: str):
         if not hasattr(self.linter.msgs_store, 'find_emittable_messages'):
-            return
+            return msg_id
         emittable, _ = self.linter.msgs_store.find_emittable_messages()
         for msg in emittable:
             if msg_id == msg.msgid:
