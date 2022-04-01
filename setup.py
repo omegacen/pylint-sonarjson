@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="pylint-sonarjson",
-    version="1.0.2",
+    version="1.0.3",
     author="Teake Nutma",
     description="A PyLint plugin that can output to SonarQube-importable JSON",
     long_description=long_description,
