@@ -1,4 +1,5 @@
 from typing import Dict, Set
+from sys import stderr
 
 from pylint.checkers import BaseChecker
 from pylint.exceptions import InvalidArgsError
@@ -80,6 +81,19 @@ class SonarOptionsChecker(BaseChecker):
                 "help": "Only enable messages specified in --sonar-rules."
             },
         ),
+        (
+            "halt-on-invalid-sonar-rules",
+            {
+                "default": True,
+                "type": "yn",
+                "metavar": "<y or n>",
+                "help": "If enabled, an exception will be raised if a"
+                        " non-existing rule is given in --sonar-rules and the "
+                        " plugin will halt."
+                        " When disabled, non-existing rules will be"
+                        " reported on stderr but are otherwise ignored."
+            }
+        )
     )
 
     def __init__(self, *args, **kwargs):
@@ -106,7 +120,13 @@ class SonarOptionsChecker(BaseChecker):
 
     def _parse_sonar_rule(self, sonar_rule: str):
         split = sonar_rule.split(":")
-        msg_id = self._validate_msg_id(split[0])
+        msg_id = split[0]
+        if not self._is_valid_msg_id(msg_id):
+            if self.option_value('halt-on-invalid-sonar-rules'):
+                raise InvalidArgsError(f"{msg_id} is not a known Pylint message id.")
+            else:
+                print(f"Disabling {msg_id} since it is not a known Pylint message id.", file=stderr)
+                return
         self._msg_ids.add(msg_id)
         if len(split) > 1:
             self._severities[msg_id] = self._validate_severity(split[1])
@@ -124,14 +144,14 @@ class SonarOptionsChecker(BaseChecker):
         for msg_id in self._msg_ids:
             self.linter.enable(msg_id)
 
-    def _validate_msg_id(self, msg_id: str):
+    def _is_valid_msg_id(self, msg_id: str):
         if not hasattr(self.linter.msgs_store, 'find_emittable_messages'):
-            return msg_id
+            return True
         emittable, _ = self.linter.msgs_store.find_emittable_messages()
         for msg in emittable:
             if msg_id == msg.msgid:
-                return msg_id
-        raise InvalidArgsError(f"{msg_id} is not a known message id.")
+                return True
+        return False
 
     @staticmethod
     def _validate_severity(severity: str):

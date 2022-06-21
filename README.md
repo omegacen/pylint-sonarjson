@@ -20,6 +20,7 @@ $ pylint \
     --sonar-default-effort=<effort> \
     --sonar-default-type=<type> \
     --only-enable-sonar-rules=<y or n> \
+    --halt-on-invalid-sonar-rules=<y or n> \
     [...]
 ```
 
@@ -33,10 +34,16 @@ in `sonar-rules` can respectively be set with `sonar-default-severity`,
 `sonar-default-effort`, `sonar-default-type`. They default to `MINOR`, `5`, and
 `CODE_SMELL` respectively.
 
-Lastly, setting the option `only-enable-sonar-rules` to `y` disables all messages
+Setting the option `only-enable-sonar-rules` to `y` disables all messages
 except for those specified in `sonar-rules`. It is equivalent to 
 `--disable=all --enable=<msg_id>,...` where `<msg_id>,...` are the message IDs
-specified in `sonar-rules`. The default value of `only-enable-sonar-rules` is `n`.`
+specified in `sonar-rules`. The default value of `only-enable-sonar-rules` is `n`.
+
+Lastly, enabling the option `halt-on-invalid-sonar-rules` will cause the plugin
+to raise an exception when a rule given in `sonar-rules` does not exist in Pylint
+and halt. Disabling this option will instead only report the invalid rule on
+stderr but will otherwise ignore the invalid rule. The default value of 
+`halt-on-invalid-sonar-rules` is `y`.`
 
 For example:
 
