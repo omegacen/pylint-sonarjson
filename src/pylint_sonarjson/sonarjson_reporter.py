@@ -51,7 +51,7 @@ class SonarJSONReporter(BaseReporter):
             "severity": self.sonar_checker.severity(msg),
             "effortMinutes": self.sonar_checker.effort(msg)
         }
-        if hasattr(msg, "endline") and msg.end_line:
+        if hasattr(msg, "end_line") and msg.end_line:
             sonar_dict["primaryLocation"]["textRange"]["endLine"] = msg.end_line
         if hasattr(msg, "end_column") and msg.end_column:
             sonar_dict["primaryLocation"]["textRange"]["endColumn"] = msg.end_column
