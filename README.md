@@ -96,7 +96,7 @@ pip install pylint-sonarjson
 Instead of via the command line, the plugin can be configured via a `pylintrc` file 
 or via `pyproject.toml`, 
 [as described in the Pylint documentation](https://pylint.pycqa.org/en/latest/user_guide/usage/run.html#command-line-options).
-Here is an exampe `pylintrc` file, generated with the `--generate-toml-config`
+Here is an exampe `pylintrc` file, generated with the `--generate-rcfile`
 command line option:
 
 ```
