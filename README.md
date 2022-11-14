@@ -90,3 +90,50 @@ $ sonar-scanner -Dsonar.externalIssuesReportPaths=<path_to_pylint_sonarjson_log>
 ```
 pip install pylint-sonarjson
 ```
+
+## Configuration via pylintrc or pyproject.toml
+
+Instead of via the command line, the plugin can be configured via a `pylintrc` file 
+or via `pyproject.toml`, 
+[as described in the Pylint documentation](https://pylint.pycqa.org/en/latest/user_guide/usage/run.html#command-line-options).
+Here is an exampe `pylintrc` file, generated with the `--generate-toml-config`
+command line option:
+
+```
+[MAIN]
+
+load-plugins=pylint_sonarjson
+
+
+[REPORTS]
+
+output-format=sonarjson
+
+
+[SONARQUBE JSON OUTPUT]
+
+# If enabled, an exception will be raised if a non-existing rule is given in
+# --sonar-rules and the  plugin will halt. When disabled, non-existing rules
+# will be reported on stderr but are otherwise ignored.
+halt-on-invalid-sonar-rules=yes
+
+# Only enable messages specified in --sonar-rules.
+only-enable-sonar-rules=no
+
+# Number of effort minutes for rules not specified in --sonar-rules.
+sonar-default-effort=5
+
+# Issue severity for rules not specified in --sonar-rules.
+sonar-default-severity=MINOR
+
+# Type of SonarQube issue for rules not specified in --sonar-rules.
+sonar-default-type=CODE_SMELL
+
+# Comma-separated list of rules, their severity, and the minutes of efforts to
+# fix the issues. The syntax is <message id>:<severity>[:<effort
+# minutes>[:<type>]].
+sonar-rules=C0114:INFO:10,C0328:MINOR:1
+```
+
+Similar output for `pyproject.toml` can be generated with the `--generate-toml-config`
+command line option.

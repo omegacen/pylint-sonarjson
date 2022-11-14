@@ -40,7 +40,7 @@ class SonarOptionsChecker(BaseChecker):
                 "help": "Comma-separated list of rules, their severity, and the"
                         " minutes of efforts to fix the issues. The syntax is"
                         " <message id>:<severity>[:<effort minutes>[:<type>]]."
-                        " So e.g. --sonar-rules=C0326:MINOR:1,E0102:MAJOR:5:BUG"
+                        " So e.g. --sonar-rules=C0325:MINOR:1,E0102:MAJOR:5:BUG"
             },
         ),
         (
