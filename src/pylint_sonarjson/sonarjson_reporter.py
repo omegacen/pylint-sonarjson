@@ -45,12 +45,13 @@ class SonarJSONReporter(BaseReporter):
                 "filePath": msg.path,
                 "textRange": {
                     "startLine": msg.line,
-                    "startColumn": msg.column,
                 }
             },
             "severity": self.sonar_checker.severity(msg),
             "effortMinutes": self.sonar_checker.effort(msg)
         }
+        if hasattr(msg, "column") and msg.column > 0:
+            sonar_dict["primaryLocation"]["textRange"]["startColumn"] = msg.column
         if hasattr(msg, "end_line") and msg.end_line:
             sonar_dict["primaryLocation"]["textRange"]["endLine"] = msg.end_line
             if hasattr(msg, "end_column") and msg.end_column:
