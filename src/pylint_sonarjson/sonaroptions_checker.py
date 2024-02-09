@@ -3,7 +3,6 @@ from sys import stderr
 
 from pylint.checkers import BaseChecker
 from pylint.exceptions import InvalidArgsError
-from pylint.interfaces import IAstroidChecker
 from pylint.message import Message
 
 DEFAULT_SEVERITY = "MINOR"
@@ -25,8 +24,6 @@ ALLOWED_TYPES = (
 
 class SonarOptionsChecker(BaseChecker):
     """Dummy checker that only registers options."""
-
-    __implements__ = IAstroidChecker
 
     name = "SonarQube JSON output"
     level = 0
@@ -104,25 +101,25 @@ class SonarOptionsChecker(BaseChecker):
         self._types:  Dict[str, str] = {}
 
     def severity(self, msg: Message):
-        return self._severities.get(msg.msg_id, self.option_value('sonar-default-severity'))
+        return self._severities.get(msg.msg_id, self._option_value('sonar-default-severity'))
 
     def effort(self, msg: Message):
-        return self._efforts.get(msg.msg_id, self.option_value('sonar-default-effort'))
+        return self._efforts.get(msg.msg_id, self._option_value('sonar-default-effort'))
 
     def type(self, msg: Message):
-        return self._types.get(msg.msg_id, self.option_value('sonar-default-type'))
+        return self._types.get(msg.msg_id, self._option_value('sonar-default-type'))
 
     def load_configuration(self):
-        for sonar_rule in self.option_value('sonar-rules'):
+        for sonar_rule in self._option_value('sonar-rules'):
             self._parse_sonar_rule(sonar_rule)
-        if self.option_value('only-enable-sonar-rules'):
+        if self._option_value('only-enable-sonar-rules'):
             self._only_enable_sonar_rules()
 
     def _parse_sonar_rule(self, sonar_rule: str):
         split = sonar_rule.split(":")
         msg_id = split[0]
         if not self._is_valid_msg_id(msg_id):
-            if self.option_value('halt-on-invalid-sonar-rules'):
+            if self._option_value('halt-on-invalid-sonar-rules'):
                 raise InvalidArgsError(f"{msg_id} is not a known Pylint message id.")
             else:
                 print(f"Disabling {msg_id} since it is not a known Pylint message id.", file=stderr)

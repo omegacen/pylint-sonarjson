@@ -1,7 +1,6 @@
 import json
 from typing import Optional, List
 
-from pylint.interfaces import IReporter
 from pylint.message import Message
 from pylint.reporters.base_reporter import BaseReporter
 from pylint.reporters.ureports.nodes import Section
@@ -13,7 +12,6 @@ from .sonaroptions_checker import SonarOptionsChecker
 class SonarJSONReporter(BaseReporter):
     """Report messages and layouts in JSON that SonarQube can import."""
 
-    __implements__ = IReporter
     name = "sonarjson"
     extension = "json"
 
