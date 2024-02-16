@@ -1,5 +1,5 @@
 from typing import Dict, Set
-from sys import stderr
+import sys
 
 from pylint.checkers import BaseChecker
 from pylint.exceptions import InvalidArgsError
@@ -122,7 +122,7 @@ class SonarOptionsChecker(BaseChecker):
             if self._option_value('halt-on-invalid-sonar-rules'):
                 raise InvalidArgsError(f"{msg_id} is not a known Pylint message id.")
             else:
-                print(f"Disabling {msg_id} since it is not a known Pylint message id.", file=stderr)
+                print(f"Disabling {msg_id} since it is not a known Pylint message id.", file=sys.stderr)
                 return
         self._msg_ids.add(msg_id)
         if len(split) > 1:
