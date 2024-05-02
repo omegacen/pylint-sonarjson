@@ -1,5 +1,11 @@
 # pylint-sonarjson
 
+## Deprecation notice
+
+This project is no longer maintained. For an newer fork and the source of the PyPI package, see https://github.com/cnescatlab/pylint-sonarjson-catlab.
+
+## Description
+
 A PyLint plugin that can output to [SonarQube-importable JSON](https://docs.sonarqube.org/latest/analysis/generic-issue/)
 with configurable issue severity, effort, and type. 
 
